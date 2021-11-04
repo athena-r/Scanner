@@ -5,7 +5,7 @@ from ScanAll import Scanner
 
 @pytest.fixture(scope='module')
 def goodScan():
-    goodScan=Scanner('testfiles/test4')
+    goodScan=Scanner('test5')
     return goodScan
 @pytest.fixture(scope='module')
 def badScan():
@@ -27,7 +27,7 @@ def test_getDict(goodScan,badScan):
     assert type(goodScan.getDict())==list
     assert len(goodScan.getDict())>0
 
-    noDict=Scanner('testfiles/test4','')     
+    noDict=Scanner('test5','')     
     with pytest.raises(FileNotFoundError):
         noDict.getDict()
 

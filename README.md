@@ -5,4 +5,5 @@ Given a file (executable, text, etc) compare it to a dictionary of forbidden wor
 Goal: ensure code isn't sent out with any identifying information
 
 ## Notes
-just trying to understand git
+This is the most recent version of the program. It checks all known encodings. 
+Program files include the program itself, forbidden words dictionary, a test file with several known bad words, and a pytest file

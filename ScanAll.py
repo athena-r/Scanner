@@ -89,7 +89,7 @@ class Scanner:
 
 if len(sys.argv)==2:
     file=sys.argv[1]
-else: file='testfiles/test4'
+else: file='test5'
 
 newScan=Scanner(str(file))
 newScan.scanReturn()
