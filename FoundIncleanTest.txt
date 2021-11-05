@@ -1,0 +1,6 @@
+Now checking cleanTest for forbidden words:
+Results shall be printed to file as a tuple of (word, offset, encoding)
+Number of matched words: 0
+Words found: []
+Encodings matched[]
+No matching words found, program is clean.

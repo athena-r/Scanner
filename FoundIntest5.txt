@@ -1,0 +1,18 @@
+Now checking test5 for forbidden words:
+Results are a tuple of (word, offset, encoding)
+('ORT', 16124, 'ascii')
+('Occam', 16208, 'ascii')
+('Avantus', 16086, 'ascii')
+('Reston', 16183, 'ascii')
+('1840', 16144, 'ascii')
+('Michael', 16149, 'ascii')
+('Faraday', 16157, 'ascii')
+('Athena', 16094, 'ascii')
+('Scott', 16080, 'ascii')
+('Treviño', 16227, 'utf-8')
+('العربية', 16263, 'utf-8')
+('Кирилица', 16282, 'utf-8')
+Number of matched words: 12
+Words found: ['ORT', 'Occam', 'Avantus', 'Reston', '1840', 'Michael', 'Faraday', 'Athena', 'Scott', 'Treviño', 'العربية', 'Кирилица']
+Encodings matched['ascii', 'utf-8']
+Please remove the matched words before submitting the file.

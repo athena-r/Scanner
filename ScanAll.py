@@ -44,6 +44,7 @@ class Scanner:
             self.matchedWords=0
             wordsFound=[]
             matchedEncodings=[]
+            found =[]
             allEncodes=['ascii','utf-8','big5','big5hkscs','cp037','cp273','cp424','cp437','cp500','cp720','cp737','cp775','cp850','cp852','cp855','cp856','cp857','cp858',
                             'cp860','cp861','cp862','cp863','cp864','cp865','cp866','cp869','cp874','cp875','cp932','cp949','cp950','cp1006','cp1026','cp1125','cp1140',
                             'cp1250','cp1251','cp1252','cp1253','cp1254','cp1255','cp1256','cp1257','cp65001','euc_jp','euc_jis_2004','euc_jisx0213','euc_kr',
@@ -52,33 +53,44 @@ class Scanner:
                             'iso8859_14','iso8859_15','iso8859_16','johab','koi8_r','koi8_t','koi8_u','kz1048','mac_cyrillic','mac_greek','mac_iceland','mac_latin2',
                             'mac_roman','mac_turkish','ptcp154','shift_jis','shift_jis_2004','shift_jisx0213','utf_32','utf_32_be','utf_32_le','utf_16','utf_16_be',
                             'utf_16_le','utf_7','utf_8','utf_8_sig','cp1258']
-            for e in allEncodes:
-                newBytes=[b.encode(encoding=e,errors='replace') for b in badwords]
-                for b in newBytes:
-                    if (b in self.getData()) and (b):
-                        if ((b.decode(encoding=e)) not in wordsFound) and ((b.decode(encoding=e))!='??'):
-                            wordsFound.append(b.decode(encoding=e))
-                            if e not in matchedEncodings: 
-                                matchedEncodings.append(e)
-                            print("Word matched with encoding "+e+": "+b.decode(encoding=e,errors='ignore'))
-                            self.matchedWords+=1
+            with open('FoundIn'+self.filename+'.txt', 'w') as f:
+                print('Now checking '+self.filename+' for forbidden words:',file=f)
+                print('Results are a tuple of (word, offset, encoding)', file=f)
+                for e in allEncodes:
+                    newBytes=[b.encode(encoding=e,errors='replace') for b in badwords]
+                    for b in newBytes:
+                        if (b in self.getData()) and (b):
+                            if ((b.decode(encoding=e)) not in wordsFound) and ((b.decode(encoding=e))!='??'):
+                                offset=self.getData().find(b)
+                                wordsFound.append(b.decode(encoding=e))
+                                if e not in matchedEncodings: 
+                                    matchedEncodings.append(e)
+                                found.append((b.decode(encoding=e,errors='ignore'), offset, e))
+                                self.matchedWords+=1
         except UnicodeEncodeError or UnicodeDecodeError or UnicodeError:
             print("Issues with Unicode")
         except Exception as e:
             print("Other error: "+str(e))
             raise LookupError
         else:
-            print("Number of matched words: "+str(self.matchedWords))
-            print("Words found: "+str(wordsFound))
-            print("Encodings matched" +str(matchedEncodings))
-            if (self.matchedWords==0):
-                print("No matching words found, program is clean.")
-            else: print("Please remove the matched words before submitting the file.")
-            return self.matchedWords
+            with open('FoundIn'+self.filename+'.txt', 'a') as f:
+                for i in found:
+                    print(i, file=f)
+                print("Number of matched words: "+str(self.matchedWords),file=f)
+                print("Words found: "+str(wordsFound),file=f)
+                print("Encodings matched" +str(matchedEncodings),file=f)
+                if (self.matchedWords==0):
+                    print("No matching words found, program is clean.",file=f)
+                else: print("Please remove the matched words before submitting the file.",file=f)
+            if self.matchedWords==0:
+                print("No matching words, test passed.")
+                return True
+            else: 
+                print ("Test failed due to matching words found, see file "+str(f.name))
+                return False
             
     def scanReturn(self):
         try:
-            print(self.__dict__)
             self.checkAll()
         except Exception as e:
             print("Program failed.")
