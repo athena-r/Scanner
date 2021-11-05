@@ -53,14 +53,14 @@ class Scanner:
                             'mac_roman','mac_turkish','ptcp154','shift_jis','shift_jis_2004','shift_jisx0213','utf_32','utf_32_be','utf_32_le','utf_16','utf_16_be',
                             'utf_16_le','utf_7','utf_8','utf_8_sig','cp1258']
             for e in allEncodes:
-                newBytes=[b.encode(encoding=e,errors='ignore') for b in badwords]
+                newBytes=[b.encode(encoding=e,errors='replace') for b in badwords]
                 for b in newBytes:
                     if (b in self.getData()) and (b):
-                        if (b.decode(encoding=e,errors='ignore')) not in wordsFound:
-                            wordsFound.append(b.decode(encoding=e,errors='ignore'))
+                        if ((b.decode(encoding=e)) not in wordsFound) and ((b.decode(encoding=e))!='??'):
+                            wordsFound.append(b.decode(encoding=e))
                             if e not in matchedEncodings: 
                                 matchedEncodings.append(e)
-                            print("Word matched with encoding "+e+": "+b.decode(encoding=e))
+                            print("Word matched with encoding "+e+": "+b.decode(encoding=e,errors='ignore'))
                             self.matchedWords+=1
         except UnicodeEncodeError or UnicodeDecodeError or UnicodeError:
             print("Issues with Unicode")
