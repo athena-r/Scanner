@@ -73,6 +73,7 @@ class Scanner:
             print("Encodings matched" +str(matchedEncodings))
             if (self.matchedWords==0):
                 print("No matching words found, program is clean.")
+            else: print("Please remove the matched words before submitting the file.")
             return self.matchedWords
             
     def scanReturn(self):
